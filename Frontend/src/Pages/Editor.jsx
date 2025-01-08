@@ -3,14 +3,18 @@ import EditorNavbar from '../Components/EditorNavbar';
 import Editor from '@monaco-editor/react';
 import { MdLightMode } from 'react-icons/md';
 import { AiOutlineExpandAlt } from 'react-icons/ai';
+import { useParams } from 'react-router-dom';
+import { api_base_url } from '../Helper';
 
-const editor = () => {
+const EditorPage = () => {
   const [tab, setTab] = useState("html");
   const [isLightMode, setIsLightMode] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [htmlCode, setHtmlCode] = useState("<h1>Hello world</h1>");
   const [cssCode, setCssCode] = useState("body { background-color: #f4f4f4; }");
   const [jsCode, setJsCode] = useState("// some comment");
+
+  const { projectID } = useParams();
 
   const changeTheme = () => {
     if (isLightMode) {
@@ -37,12 +41,73 @@ const editor = () => {
   };
 
   useEffect(() => {
-    run();
-  }, []);
+    setTimeout(() => {
+      run();
+    }, 200);
+  }, [htmlCode, cssCode, jsCode]);
 
   useEffect(() => {
-    run();
-  }, [tab]);
+    fetch(api_base_url + "/getProject", {
+      mode: "cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        userId: localStorage.getItem("userId"),
+        projId: projectID // Use projectID here
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        setHtmlCode(data.project.htmlCode);
+        setCssCode(data.project.cssCode);
+        setJsCode(data.project.jsCode);
+      });
+  }, [projectID]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.ctrlKey && event.key === 's') {
+        event.preventDefault(); // Prevent the default save file dialog
+
+        // Ensure that projectID and code states are updated and passed to the fetch request
+        fetch(api_base_url + "/updateProject", {
+          mode: "cors",
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userId: localStorage.getItem("userId"),
+            projId: projectID,  // Make sure projectID is correct
+            htmlCode: htmlCode,  // Passing the current HTML code
+            cssCode: cssCode,    // Passing the current CSS code
+            jsCode: jsCode       // Passing the current JS code
+          })
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              alert("Project saved successfully");
+            } else {
+              alert("Something went wrong");
+            }
+          })
+          .catch((err) => {
+            console.error("Error saving project:", err);
+            alert("Failed to save project. Please try again.");
+          });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [projectID, htmlCode, cssCode, jsCode]);
 
   return (
     <>
@@ -88,4 +153,4 @@ const editor = () => {
   );
 };
 
-export default editor;
+export default EditorPage;

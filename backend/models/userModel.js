@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/pen-code');
+// Remove the mongoose.connect() call
+// mongoose.connect('mongodb://127.0.0.1:27017/pen-code');
 
 let userSchema = new mongoose.Schema({
     name: String,

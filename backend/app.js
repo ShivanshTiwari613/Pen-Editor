@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require("cors");
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose'); // Import mongoose
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -28,6 +29,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// Connect to MongoDB
+var mongoDB = 'mongodb://localhost:27017/pen-code';
+mongoose.set('debug', true); // Enable debug mode for Mongoose
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
 // Ensure the server listens on port 5000
 var port = process.env.PORT || 5000;
 app.listen(port, () => {
@@ -49,6 +57,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;

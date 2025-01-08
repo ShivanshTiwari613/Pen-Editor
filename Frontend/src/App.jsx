@@ -5,7 +5,7 @@ import Home from "./Pages/Home";
 import NoPage from "./Pages/NoPage";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login"
-import Editor from "./Pages/editor";
+import EditorPage from "./Pages/Editor";
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="SignUp" element={<SignUp />} />
             <Route path="login" element={<Login />} />
-            <Route path="Editor/:projectId" element={<Editor />} />
+            <Route path="Editor/:projectId" element={<EditorPage />} />
             <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
