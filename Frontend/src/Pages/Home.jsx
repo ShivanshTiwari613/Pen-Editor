@@ -11,6 +11,7 @@ const Home = () => {
     const [error, setError] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
     const [projTitle, setProjTitle] = useState("");
+    const [isLightMode, setIsLightMode] = useState(false);
 
     const navigate = useNavigate();
 
@@ -21,6 +22,19 @@ const Home = () => {
     const filteredData = data ? data.filter(item =>
         item.title.toLowerCase().includes(searchQuery.toLowerCase())
     ) : [];
+
+    const changeTheme = () => {
+        if (isLightMode) {
+            document.querySelector(".EditorNavbar").style.background = "#141414";
+            document.body.classList.remove("LightMode");
+            setIsLightMode(false);
+        }
+        else {
+            document.querySelector(".EditorNavbar").style.background = "#f4f4f4";
+            document.body.classList.add("LightMode");
+            setIsLightMode(true);
+        }
+    }
 
     const createProj = (e) => {
         if (projTitle === "") {
@@ -40,8 +54,7 @@ const Home = () => {
                 if (data.success) {
                     setIsCreateModelShow(false);
                     setProjTitle("");
-                    alert("Project Created Successfully");
-                    navigate(`/Editior/${data.projectId}`);
+                    navigate(`/Editor/${data.projectId}`); // Corrected the navigation path
                 } else {
                     alert("Something Went Wrong");
                 }
@@ -98,8 +111,8 @@ const Home = () => {
 
     return (
         <>
-            <Navbar isGridLayout={isGridLayout} setIsGridLayout={setisGridLayout} />
-            <div className='flex items-center justify-between px-[100px] my-[40px]'>
+            <Navbar isGridLayout={isGridLayout} setIsGridLayout={setisGridLayout} isLightMode={isLightMode} setIsLightMode={setIsLightMode} />
+            <div className='home flex items-center justify-between px-[100px] my-[40px]'>
                 <h2 className='text-2xl'>Hi, {userData ? userData.username : ""} 👋</h2>
                 <div className='flex items-center gap-1'>
                     {/* Search Bar */}
@@ -107,8 +120,8 @@ const Home = () => {
                         <input
                             type="text"
                             placeholder='Search Here... !'
-                            value={searchQuery} 
-                            onChange={(e) => setSearchQuery(e.target.value)} 
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
                     <button onClick={() => { setIsCreateModelShow(true) }} className='btnBlue rounded-[5px] mb-4 text-[20px] !p-[5px] !px-[10px]'>+</button>
@@ -118,20 +131,20 @@ const Home = () => {
             <div className="cards">
                 {
                     isGridLayout ?
-                    <div className='grid px-[100px]'>
-                      {
-                        filteredData.length > 0 ? filteredData.map((item, index) => (
-                          <GridCard key={index} item={item} />
-                        )) : <p>No projects found</p>
-                      }
-                    </div>
-                    : <div className='list px-[100px]'>
-                      {
-                        filteredData.length > 0 ? filteredData.map((item, index) => (
-                          <ListCard key={index} item={item} />
-                        )) : <p>No projects found</p>
-                      }
-                    </div>
+                        <div className='grid px-[100px]'>
+                            {
+                                filteredData.length > 0 ? filteredData.map((item, index) => (
+                                    <GridCard key={index} item={item} />
+                                )) : <p>No projects found</p>
+                            }
+                        </div>
+                        : <div className='list px-[100px]'>
+                            {
+                                filteredData.length > 0 ? filteredData.map((item, index) => (
+                                    <ListCard key={index} item={item} />
+                                )) : <p>No projects found</p>
+                            }
+                        </div>
                 }
             </div>
 

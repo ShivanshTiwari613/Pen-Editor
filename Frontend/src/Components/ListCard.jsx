@@ -32,7 +32,7 @@ const ListCard = ({ item }) => {
     return (
         <>
             <div className='listcard mb-2 w-full flex items-center justify-between bg-[#141414] p-[10px] cursor-pointer hover:bg-[#202020] rounded-lg shadow-lg shadow-black/50'>
-                <div onClick={()=>{navigate(`/Editior/${item._id}`)}} className="flex items-center gap-2">
+                <div onClick={()=>{navigate(`/Editor/${item._id}`)}} className="flex items-center gap-2">
                     <img src={codeImg} alt="" className="w-[80px]" />
                     <div>
                         <h3 className="text-[20px]">{item.title}</h3>

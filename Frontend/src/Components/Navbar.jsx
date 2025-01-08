@@ -6,7 +6,7 @@ import { MdLightMode } from 'react-icons/md';
 import { BsGridFill } from 'react-icons/bs';
 import { api_base_url, toggleClass } from "../Helper";
 
-const Navbar = ({ isGridLayout, setIsGridLayout }) => {
+const Navbar = ({ isGridLayout, setIsGridLayout, isLightMode, setIsLightMode }) => {
 
     const navigate = useNavigate();
 
@@ -40,6 +40,18 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
         window.location.reload();
     }
 
+    const toggleLightMode = () => {
+        setIsLightMode(!isLightMode);
+        document.body.classList.toggle("light-mode", !isLightMode);
+        document.querySelector(".navbar").style.background = !isLightMode ? "#f4f4f4" : "#141414";
+        document.querySelector(".dropDownNavbar").style.background = !isLightMode ? "#f4f4f4" : "#1A1919";
+        document.querySelector(".home").style.background = !isLightMode ? "#f4f4f4" : "#141414";
+        document.querySelector(".cards").style.background = !isLightMode ? "#f4f4f4" : "#141414";
+        document.querySelector(".createModelCon").style.background = !isLightMode ? "rgba(0,0,0,0.1)" : "rgba(20,20,20,0.9)";
+        document.querySelector(".inputBox").style.background = !isLightMode ? "#fff" : "#202020";
+        document.querySelector(".btnBlue").style.background = !isLightMode ? "#00AEEF" : "#1A1919";
+    }
+
     return (
         <>
             <div className="navbar flex  items-center justify-between px-[100px] h-[80px] bg-[#141414]">
@@ -59,8 +71,12 @@ const Navbar = ({ isGridLayout, setIsGridLayout }) => {
                     <div className="py-[10px] border-b-[1px] border-b-[#fff]">
                         <h3 className="text-[17px]" style={{ lineHeight: 1 }}>{data ? data.name : ""}</h3>
                     </div>
-                    <i className="flex items-center gap-2 mt-3 mb-2 cursor-pointer" style={{ fontStyle: "normal" }}><MdLightMode className="text-[20px]" />Light Mode</i>
-                    <i onClick={() => setIsGridLayout(!isGridLayout)} className='flex items-center gap-2 mt-3 mb-2 cursor-pointer' style={{ fontStyle: "normal" }}><BsGridFill className='text-[20px]' /> {isGridLayout ? "List" : "Grid"} layout</i>
+                    <i onClick={toggleLightMode} className="flex items-center gap-2 mt-3 mb-2 cursor-pointer" style={{ fontStyle: "normal" }}>
+                        <MdLightMode className="text-[20px]" />{isLightMode ? "Dark Mode" : "Light Mode"}
+                    </i>
+                    <i onClick={() => setIsGridLayout(!isGridLayout)} className='flex items-center gap-2 mt-3 mb-2 cursor-pointer' style={{ fontStyle: "normal" }}>
+                        <BsGridFill className='text-[20px]' /> {isGridLayout ? "List" : "Grid"} layout
+                    </i>
                 </div>
             </div>
         </>
