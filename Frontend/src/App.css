@@ -1,3 +1,23 @@
+:root {
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1A1919;
+  --bg-input: #202020;
+  --text-primary: #fff;
+  --text-secondary: gray;
+  --btn-blue: #00AEEF;
+  --btn-blue-hover: #0086b3;
+}
+
+body.light-mode {
+  --bg-primary: #fff;
+  --bg-secondary: #f4f4f4;
+  --bg-tertiary: #f4f4f4;
+  --bg-input: #fff;
+  --text-primary: #000;
+  --text-secondary: #555;
+}
+
 *{
   margin: 0;
   padding: 0;
@@ -7,8 +27,8 @@ body{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #0d0d0d;
-  color: #fff;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
 }
 
@@ -16,9 +36,17 @@ html{
   overflow-x: hidden;
 }
 
-.inputBox{
+.navbar, .EditorNavbar, .home, .cards {
+  background-color: var(--bg-secondary) !important;
+}
+
+.dropDownNavbar, .tabs {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.inputBox {
   width: 100%;
-  background-color: #141414;
+  background-color: var(--bg-input) !important;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -31,12 +59,12 @@ html{
   border: none;
   outline: none;
   background-color: transparent;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 16px;
 }
 
 .btnBlue {
-  background-color: #00AEEF;
+  background-color: var(--btn-blue);
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -47,7 +75,7 @@ html{
 }
 
 .btnBlue:hover{
-  background-color: #0086b3;
+  background-color: var(--btn-blue-hover);
 }
 
 .grid {
@@ -56,25 +84,19 @@ html{
   gap: 10px;
 }
 
-.LightMode {
-  background-color: #fff !important;
-  color: #000 !important;
+.tab {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
 }
 
-.LightMode .navbar{
-  background-color: #fff !important;
+.createModelCon {
+  background-color: rgba(0,0,0,0.5) !important;
 }
 
-.LightMode .tabs{
-  background-color: #f7f7f7 !important;
+body.light-mode .createModelCon {
+  background-color: rgba(0,0,0,0.1) !important;
 }
 
-.LightMode .tabs .tab{
-  background-color: #c2c1c1 !important;
-  color: #000 !important;
-}
-
-.LightMode .btn {
-  background-color: #c2c1c1;
-  color: #000 ;
+.createModel {
+  background-color: var(--bg-secondary) !important;
 }
