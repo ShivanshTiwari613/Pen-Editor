@@ -147,7 +147,7 @@ const EditorPage = () => {
                   height="82vh" theme={isLightMode ? "vs-light" : "vs-dark"} language="javascript" value={jsCode} />
           }
         </div>
-        {!isExpanded && <iframe id='iframe' className='w-1/2 min-h-[50vh] bg-[#fff] text-black'></iframe>}
+        {!isExpanded && <iframe id='iframe' sandbox="allow-scripts" className='w-1/2 min-h-[50vh] bg-[#fff] text-black'></iframe>}
       </div>
     </>
   );
