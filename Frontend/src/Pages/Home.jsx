@@ -11,7 +11,6 @@ const Home = () => {
     const [error, setError] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
     const [projTitle, setProjTitle] = useState("");
-    const [isLightMode, setIsLightMode] = useState(false);
 
     const navigate = useNavigate();
 
@@ -22,19 +21,6 @@ const Home = () => {
     const filteredData = data ? data.filter(item =>
         item.title.toLowerCase().includes(searchQuery.toLowerCase())
     ) : [];
-
-    const changeTheme = () => {
-        if (isLightMode) {
-            document.querySelector(".EditorNavbar").style.background = "#141414";
-            document.body.classList.remove("LightMode");
-            setIsLightMode(false);
-        }
-        else {
-            document.querySelector(".EditorNavbar").style.background = "#f4f4f4";
-            document.body.classList.add("LightMode");
-            setIsLightMode(true);
-        }
-    }
 
     const createProj = (e) => {
         if (projTitle === "") {
@@ -111,7 +97,7 @@ const Home = () => {
 
     return (
         <>
-            <Navbar isGridLayout={isGridLayout} setIsGridLayout={setisGridLayout} isLightMode={isLightMode} setIsLightMode={setIsLightMode} />
+            <Navbar isGridLayout={isGridLayout} setIsGridLayout={setisGridLayout} />
             <div className='home flex items-center justify-between px-[100px] my-[40px]'>
                 <h2 className='text-2xl'>Hi, {userData ? userData.username : ""} 👋</h2>
                 <div className='flex items-center gap-1'>
