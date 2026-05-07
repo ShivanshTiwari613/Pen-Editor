@@ -6,10 +6,11 @@ import NoPage from "./Pages/NoPage";
 import SignUp from "./Pages/SignUp";
 import Login from "./Pages/Login"
 import EditorPage from "./Pages/Editor";
+import { ThemeProvider } from "./Context/ThemeContext";
 
 const App = () => {
   return (
-    <>
+    <ThemeProvider>
       <BrowserRouter>
         <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
@@ -20,7 +21,7 @@ const App = () => {
             <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </ThemeProvider>
   )
 }
 

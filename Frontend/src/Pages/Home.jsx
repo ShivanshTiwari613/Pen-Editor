@@ -4,6 +4,7 @@ import GridCard from "../Components/GridCard";
 import ListCard from "../Components/ListCard";
 import { useNavigate } from "react-router-dom";
 import { api_base_url } from "../Helper";
+import { useTheme } from "../Context/ThemeContext";
 
 const Home = () => {
 
@@ -11,7 +12,7 @@ const Home = () => {
     const [error, setError] = useState("");
     const [searchQuery, setSearchQuery] = useState('');
     const [projTitle, setProjTitle] = useState("");
-    const [isLightMode, setIsLightMode] = useState(false);
+    const { isLightMode } = useTheme();
 
     const navigate = useNavigate();
 
@@ -22,19 +23,6 @@ const Home = () => {
     const filteredData = data ? data.filter(item =>
         item.title.toLowerCase().includes(searchQuery.toLowerCase())
     ) : [];
-
-    const changeTheme = () => {
-        if (isLightMode) {
-            document.querySelector(".EditorNavbar").style.background = "#141414";
-            document.body.classList.remove("LightMode");
-            setIsLightMode(false);
-        }
-        else {
-            document.querySelector(".EditorNavbar").style.background = "#f4f4f4";
-            document.body.classList.add("LightMode");
-            setIsLightMode(true);
-        }
-    }
 
     const createProj = (e) => {
         if (projTitle === "") {
@@ -54,7 +42,7 @@ const Home = () => {
                 if (data.success) {
                     setIsCreateModelShow(false);
                     setProjTitle("");
-                    navigate(`/Editor/${data.projectId}`); // Corrected the navigation path
+                    navigate(`/Editor/${data.projectId}`); 
                 } else {
                     alert("Something Went Wrong");
                 }
@@ -110,35 +98,35 @@ const Home = () => {
     }, [])
 
     return (
-        <>
-            <Navbar isGridLayout={isGridLayout} setIsGridLayout={setisGridLayout} isLightMode={isLightMode} setIsLightMode={setIsLightMode} />
+        <div className={`homeContainer min-h-screen ${isLightMode ? "bg-[#f4f4f4] text-black" : "bg-[#141414] text-white"}`}>
+            <Navbar isGridLayout={isGridLayout} setIsGridLayout={setisGridLayout} />
             <div className='home flex items-center justify-between px-[100px] my-[40px]'>
                 <h2 className='text-2xl'>Hi, {userData ? userData.username : ""} 👋</h2>
                 <div className='flex items-center gap-1'>
-                    {/* Search Bar */}
-                    <div className="inputBox !w-[350px]">
+                    <div className={`inputBox !w-[350px] ${isLightMode ? "!bg-white" : "!bg-[#202020]"}`}>
                         <input
+                            className={isLightMode ? "text-black" : "text-white"}
                             type="text"
                             placeholder='Search Here... !'
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
-                    <button onClick={() => { setIsCreateModelShow(true) }} className='btnBlue rounded-[5px] mb-4 text-[20px] !p-[5px] !px-[10px]'>+</button>
+                    <button onClick={() => { setIsCreateModelShow(true) }} className={`btnBlue rounded-[5px] mb-4 text-[20px] !p-[5px] !px-[10px] ${isLightMode ? "!bg-[#00AEEF]" : "!bg-[#1A1919]"}`}>+</button>
                 </div>
             </div>
 
-            <div className="cards">
+            <div className="cards px-[100px]">
                 {
                     isGridLayout ?
-                        <div className='grid px-[100px]'>
+                        <div className='grid grid-cols-3 gap-4'>
                             {
                                 filteredData.length > 0 ? filteredData.map((item, index) => (
                                     <GridCard key={index} item={item} />
                                 )) : <p>No projects found</p>
                             }
                         </div>
-                        : <div className='list px-[100px]'>
+                        : <div className='list flex flex-col gap-2'>
                             {
                                 filteredData.length > 0 ? filteredData.map((item, index) => (
                                     <ListCard key={index} item={item} />
@@ -149,22 +137,22 @@ const Home = () => {
             </div>
 
             {
-                isCreateModelShow ? <div className="createModelCon fixed top-0 left-0 bottom-0 w-screen h-screen bg-[rgb(0,0,0,0.1)] flex items-center justify-center">
-                    <div className="createModel w-[25vw] h-[27vh] shadow-lg shadow-black/50 bg-[#141414] rounded-[10px] p-[20px]">
+                isCreateModelShow ? <div className={`createModelCon fixed top-0 left-0 bottom-0 w-screen h-screen ${isLightMode ? "bg-[rgba(0,0,0,0.1)]" : "bg-[rgba(20,20,20,0.9)]"} flex items-center justify-center`}>
+                    <div className={`createModel w-[25vw] h-[27vh] shadow-lg shadow-black/50 ${isLightMode ? "bg-[#f4f4f4]" : "bg-[#141414]"} rounded-[10px] p-[20px]`}>
                         <h3 className="text-2xl">Create New Project</h3>
 
-                        <div className="inputBox !bg-[#202020] mt-4">
-                            <input onChange={(e) => { setProjTitle(e.target.value) }} value={projTitle} type="text" placeholder="Project Title " />
+                        <div className={`inputBox mt-4 ${isLightMode ? "!bg-white border" : "!bg-[#202020]"}`}>
+                            <input className={isLightMode ? "text-black" : "text-white"} onChange={(e) => { setProjTitle(e.target.value) }} value={projTitle} type="text" placeholder="Project Title " />
                         </div>
 
                         <div className="flex items-center gap-[10px] w-full mt-2">
                             <button onClick={createProj} className="btnBlue rounded-[5px] w-[49%] mb-4 text-[20px] !p-[5px] !p-[10px] !py-[10px]">Create</button>
-                            <button onClick={() => { setIsCreateModelShow(false) }} className="btnBlue !bg-[#1A1919] rounded-[5px] mb-4 w-[49%] text-[20px] !p-[5px] !px-[10px] !py-[10px]">Cancel</button>
+                            <button onClick={() => { setIsCreateModelShow(false) }} className={`btnBlue rounded-[5px] mb-4 w-[49%] text-[20px] !p-[5px] !px-[10px] !py-[10px] ${isLightMode ? "!bg-gray-300 !text-black" : "!bg-[#1A1919]"}`}>Cancel</button>
                         </div>
                     </div>
                 </div> : ""
             }
-        </>
+        </div>
     )
 }
 

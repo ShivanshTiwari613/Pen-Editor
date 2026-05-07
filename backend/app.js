@@ -8,6 +8,7 @@ var cors = require("cors");
 var helmet = require('helmet');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var http = require('http');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -57,6 +58,24 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+/**
+ * Get port from environment and store in Express.
+ */
+var port = process.env.PORT || '5000';
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });
 
 module.exports = app;
