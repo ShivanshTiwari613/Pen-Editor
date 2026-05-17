@@ -82,6 +82,3 @@ The application should now be running at `http://localhost:5173`.
 - **Consolidated Backend**: Simplified the server initialization logic into a single entry point (`app.js`).
 - **Improved Security**: Integrated Helmet and CORS for better security practices.
 - **Scalable Architecture**: Organized codebase for better developer onboarding and maintainability.
-
-## 👨‍💻 Contributors
-- Built by **Team Crux**
